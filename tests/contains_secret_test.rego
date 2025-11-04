@@ -7,5 +7,5 @@ test_secret_found_when_contains_secret if {
 }
 
 test_secret_not_found_when_missing if {
-	not contains_secret.secret_found with input as {"msg": "no secrets here"}
+	not contains_secret.secret_found with input as {"msg": "no yer here"}
 }
