@@ -34,7 +34,7 @@ jobs:
 
       - name: Publish bundle to Artifactory (latest)
         run: |
-          # Repo: opa-generic-local
+          # Repo: opa-policies-local
           # Path: sample/opa-sample-bundle-latest.tar.gz
           curl -H "X-JFrog-Art-Api: $JFROG_TOKEN" \
                -T "opa-sample-bundle.tar.gz" \
