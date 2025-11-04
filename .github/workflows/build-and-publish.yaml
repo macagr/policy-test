@@ -1,0 +1,41 @@
+name: Build & Publish OPA Sample Bundle
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    env:
+      # e.g. https://your-org.jfrog.io
+      JFROG_URL: ${{ secrets.JFROG_URL }}
+      # Artifactory access token with deploy permissions
+      JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa
+          sudo mv opa /usr/local/bin/
+
+      - name: Run OPA tests
+        run: opa test ./policies ./tests
+
+      - name: Build OPA bundle
+        run: |
+          opa build -b policies -o opa-sample-bundle.tar.gz
+          ls -lh opa-sample-bundle.tar.gz
+
+      - name: Publish bundle to Artifactory (latest)
+        run: |
+          # Repo: opa-generic-local
+          # Path: sample/opa-sample-bundle-latest.tar.gz
+          curl -H "X-JFrog-Art-Api: $JFROG_TOKEN" \
+               -T "opa-sample-bundle.tar.gz" \
+               "$JFROG_URL/artifactory/opa-opa-generic-local/sample/opa-sample-bundle-latest.tar.gz"
