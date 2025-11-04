@@ -36,6 +36,6 @@ jobs:
         run: |
           # Repo: opa-policies-local
           # Path: sample/opa-sample-bundle-latest.tar.gz
-          curl -H "X-JFrog-Art-Api: $JFROG_TOKEN" \
+          curl -H "Authorization: Bearer $JFROG_TOKEN" \
                -T "opa-sample-bundle.tar.gz" \
                "$JFROG_URL/artifactory/opa-generic-local/sample/opa-sample-bundle-latest.tar.gz"
