@@ -1,5 +1,7 @@
 package sample.contains_secret
 
+import rego.v1
+
 default secret_found := false
 
 # Boolean rule: true only when the string 'secret' is inside input.msg
